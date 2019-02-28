@@ -1,0 +1,24 @@
+{
+    "name": "redant/twig-components",
+    "description": "Define reusable components in Twig.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["twig", "components", "extension"],
+    "homepage": "https://github.com/redantnl/twig-components",
+    "authors": [
+        {
+            "name": "Gert Wijnalda",
+            "email": "gert@redant.nl"
+        }
+    ],
+    "require": {
+        "php": ">=7.0",
+        "twig/twig": "^1.27|^2.0",
+        "symfony/property-access": "^4.0"
+    },
+   "autoload": {
+        "psr-4": {
+            "": "lib/"
+        }
+    }
+}

@@ -1,0 +1,63 @@
+{#
+    DataTable component
+
+    Renders a HTML table that can be enhanced with JS DataTables.net.
+#}
+
+{% component datatable {
+    id:                 { type: 'string', comment: 'ID attribute' },
+
+    datasource:         { type: 'string', comment: 'The url that will return a JSON representation of this table\'s data', preview: 'http://example.org/data' },
+    details_url:        { type: 'string', comment: 'The url that will be opened on clicking a row; must contain a placeholder {0}', preview: 'http://example.org/item/{0}' },
+    modal:              { type: 'string', comment: 'The name of the modal element that the details-url will open into' },
+
+    sort:               { type: 'string[]', comment: 'An array with two values: the column to sort on and the sorting direction "asc" or "desc"' },
+
+    columns:            { type: 'string[]', comment: 'The column names', preview: '[ "Column one", "Column two" ]' },
+    column_prefix:      { type: 'string', comment: 'Column name prefix (e.g., "project" for a project entity)' },
+    columns_fixed:      { type: 'int[]', default: [], comment: 'Fixed width column indexes' },
+    columns_bool:       { type: 'int[]', default: [], comment: 'Boolean column indexes' },
+    columns_hidden:     { type: 'int[]', default: [], comment: 'Hidden column indexes' },
+
+    paginated:          { type: 'bool', default: true, comment: 'Show paginated vs. all records' },
+    sortable:           { type: 'bool', default: true, comment: 'Allow the user to sort using the column headers' },
+    orderable:          { type: 'bool', default: false, comment: 'Allow the user to reorder the rows' },
+    selectable:         { type: 'bool',  default: false, comment: 'Allow the user to select individual rows' },
+
+    translation_domain: { type: 'string', default: 'entity', comment: 'Translation domain for column headers' }
+} with options %}
+
+{% set classes = [ 'ui', 'very', 'basic' ] %}
+{% if datatable.sortable %}{% set classes = classes|merge([ 'sortable' ]) %}{% endif %}
+{% if datatable.orderable %}{% set classes = classes|merge([ 'orderable' ]) %}{% endif %}
+{% if datatable.paginated %}{% set classes = classes|merge([ 'paginated' ]) %}{% endif %}
+{% set classes = classes|merge([ 'selectable', 'unstackable', 'data', 'table' ]) %}
+
+{# If a details url is specified, add a hidden id column to the front of the data #}
+{# This column is then used to create <tr id=...> tags #}
+{% set columns = (datatable.details_url) ? ['id']|merge(datatable.columns) : datatable.columns %}
+
+<table
+        {%- if datatable.id %} id='{{ datatable.id }}'{% endif -%}
+        {%- if true %} class='{{ classes|join(' ') }}'{% endif -%}
+        {%- if datatable.datasource %} data-ajax='{{ datatable.datasource }}'{% endif -%}
+        {%- if datatable.details_url %} data-details-url='{{ datatable.details_url }}'{% endif -%}
+        {%- if datatable.modal %} data-modal="true" data-modal-target='{{ datatable.modal }}'{% endif -%}
+        {%- if datatable.columns_fixed %} data-columns-fixed='[ {{ datatable.columns_fixed|join(', ') }} ]'{% endif -%}
+        {%- if datatable.columns_bool %} data-columns-bool='[ {{ datatable.columns_bool|join(', ') }} ]'{% endif -%}
+        {%- if true %} width='100%'{% endif -%}
+>
+    <thead>
+        <tr>
+            {% if datatable.selectable -%}
+                <th><input type="checkbox" id="select_all" title="{{ 'ui.datatable.select_all'|trans({}, 'app') }}"/></th>
+            {%- endif %}
+
+            {%- for column in columns -%}
+                <th{%- if loop.index0 in datatable.columns_hidden or (datatable.details_url and loop.index0 == 0) %} data-visible="false"{% endif -%}>
+                    {{- ((datatable.column_prefix ? datatable.column_prefix ~ '.' : '') ~ column)|transchoice(1, {}, datatable.translation_domain) -}}
+                </th>
+            {% endfor -%}
+        </tr>
+    </thead>
+</table>

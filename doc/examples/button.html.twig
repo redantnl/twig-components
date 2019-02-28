@@ -1,0 +1,20 @@
+{#
+    Example Button component
+#}
+
+{% component button {
+    container:    { type: 'string',
+                    default: 'button',
+                    comment: 'HTML container element' },
+    label:        { type: 'string',
+                    required: true,
+                    comment: 'Button text (rendered as raw)',
+                    preview: 'Button text' },
+    url:          { type: 'string' }
+} with options %}
+
+<{{ button.container }}
+    class="{{ button.classes|join(' ') }}"
+    {% if button.url %}href='{{ button.url }}'{% endif %}>
+    {{ label|raw }}
+</{{ button.container }}>
