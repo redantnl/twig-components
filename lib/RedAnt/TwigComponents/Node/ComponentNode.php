@@ -3,6 +3,10 @@
 namespace RedAnt\TwigComponents\Node;
 
 use RedAnt\TwigComponents\Property;
+use Twig\Compiler;
+use Twig\Error\SyntaxError;
+use Twig\Node\Expression\AbstractExpression as Expression;
+use Twig\Node\Node;
 
 /**
  * Defines and compiles a Component node.
@@ -13,7 +17,7 @@ use RedAnt\TwigComponents\Property;
  *
  * @author  Gert Wijnalda <gert@redant.nl>
  */
-class ComponentNode extends \Twig_Node
+class ComponentNode extends Node
 {
     /**
      * @var string
@@ -21,11 +25,11 @@ class ComponentNode extends \Twig_Node
     protected $componentName;
 
     /**
-     * @var \Twig_Compiler
+     * @var Compiler
      */
     protected $compiler;
 
-    public function __construct($name, \Twig_Node_Expression $value, array $properties, \Twig_Node_Expression $options, $line, $tag = null)
+    public function __construct($name, Expression $value, array $properties, Expression $options, $line, $tag = null)
     {
         parent::__construct(
             [ 'value' => $value, 'options' => $options ],
@@ -33,11 +37,11 @@ class ComponentNode extends \Twig_Node
     }
 
     /**
-     * @param \Twig_Compiler $compiler
+     * @param Compiler $compiler
      *
-     * @throws \Twig_Error_Syntax
+     * @throws SyntaxError
      */
-    public function compile(\Twig_Compiler $compiler)
+    public function compile(Compiler $compiler)
     {
         $this->compiler = $compiler;
         $this->componentName = $this->getAttribute('name');
@@ -89,7 +93,7 @@ class ComponentNode extends \Twig_Node
             ->write('if (!empty($candidates)) {' . PHP_EOL)->indent()
             ->write('$message .= sprintf(\' Did you mean "%s"?\', join(\'", "\', $candidates));' . PHP_EOL)
             ->outdent()->write('}' . PHP_EOL)
-            ->write('throw new \Twig_Error_Runtime($message);' . PHP_EOL)
+            ->write('throw new \Twig\Error\RuntimeError($message);' . PHP_EOL)
             ->outdent()->write('}' . PHP_EOL)
             ->outdent()->write('}' . PHP_EOL);
     }
@@ -100,7 +104,7 @@ class ComponentNode extends \Twig_Node
      * @param Property[] $properties
      * @param string     $contextOptions
      *
-     * @throws \Twig_Error_Syntax
+     * @throws SyntaxError
      */
     protected function compilePropertyTests(array $properties, $contextOptions): void
     {
@@ -124,7 +128,7 @@ class ComponentNode extends \Twig_Node
 
             $this->compiler
                 ->write('if (' . sprintf($test, $option) . ') {' . PHP_EOL)->indent()
-                ->indent()->write('throw new \Twig_Error_Runtime(\'' . $message . '.\');' . PHP_EOL)
+                ->indent()->write('throw new \Twig\Error\RuntimeError(\'' . $message . '.\');' . PHP_EOL)
                 ->outdent()->write('}' . PHP_EOL);
         }
     }
@@ -135,7 +139,7 @@ class ComponentNode extends \Twig_Node
      * @param string|null $type
      *
      * @return string|null
-     * @throws \Twig_Error_Syntax
+     * @throws SyntaxError
      */
     private function getTestForType(?string $type)
     {
@@ -164,7 +168,7 @@ class ComponentNode extends \Twig_Node
                     return '%s instanceof ' . $type;
                 }
 
-                throw new \Twig_Error_Syntax(
+                throw new SyntaxError(
                     sprintf("Component contains an invalid type '%s'" .
                         " (allowed types are string, bool, int, float, array, ...[], or any existing class)",
                         $type),

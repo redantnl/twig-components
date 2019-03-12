@@ -5,13 +5,16 @@ namespace RedAnt\TwigComponents\NodeVisitor;
 use RedAnt\TwigComponents\Node\ComponentNode;
 use RedAnt\TwigComponents\Property;
 use RedAnt\TwigComponents\Registry;
+use Twig\Environment;
+use Twig\Node\Node;
+use Twig\NodeVisitor\NodeVisitorInterface;
 
 /**
  * Class ComponentNodeVisitor.
  *
  * @author Gert Wijnalda <gert@redant.nl>
  */
-class ComponentNodeVisitor implements \Twig_NodeVisitorInterface
+class ComponentNodeVisitor implements NodeVisitorInterface
 {
     /**
      * @var Property[]
@@ -29,12 +32,12 @@ class ComponentNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * Called before child nodes are visited.
      *
-     * @param \Twig_Node        $node
-     * @param \Twig_Environment $env
+     * @param Node        $node
+     * @param Environment $env
      *
-     * @return \Twig_Node The modified node
+     * @return Node The modified node
      */
-    public function enterNode(\Twig_Node $node, \Twig_Environment $env): \Twig_Node
+    public function enterNode(Node $node, Environment $env): Node
     {
         if ($node instanceof ComponentNode) {
             $template = $node->getTemplateName();
@@ -49,12 +52,12 @@ class ComponentNodeVisitor implements \Twig_NodeVisitorInterface
     /**
      * Called after child nodes are visited.
      *
-     * @param \Twig_Node        $node
-     * @param \Twig_Environment $env
+     * @param Node        $node
+     * @param Environment $env
      *
-     * @return \Twig_Node|false The modified node or false if the node must be removed
+     * @return Node|false The modified node or false if the node must be removed
      */
-    public function leaveNode(\Twig_Node $node, \Twig_Environment $env)
+    public function leaveNode(Node $node, Environment $env)
     {
         return $node;
     }

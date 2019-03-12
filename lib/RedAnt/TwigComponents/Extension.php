@@ -3,7 +3,12 @@
 namespace RedAnt\TwigComponents;
 
 use RedAnt\TwigComponents\TokenParser\ComponentTokenParser;
-use Twig;
+use Twig\Environment;
+use Twig\Error\RuntimeError;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
+use Twig\TokenParser\TokenParserInterface;
+use Twig\TwigFunction;
 
 /**
  * Defines the Twig extensions for Components.
@@ -13,7 +18,7 @@ use Twig;
  *
  * @author Gert Wijnalda <gert@redant.nl>
  */
-class Extension extends \Twig_Extension implements \Twig_Extension_GlobalsInterface
+class Extension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * @var Registry
@@ -44,7 +49,7 @@ class Extension extends \Twig_Extension implements \Twig_Extension_GlobalsInterf
     /**
      * Returns the token parser instance to parse the 'component' tag, to add to the existing list.
      *
-     * @return \Twig_TokenParserInterface[]
+     * @return TokenParserInterface[]
      */
     public function getTokenParsers()
     {
@@ -75,10 +80,10 @@ class Extension extends \Twig_Extension implements \Twig_Extension_GlobalsInterf
         $components = $this->componentRegistry->getComponents();
 
         $functions = [
-            new \Twig_SimpleFunction('render_component',
-                function (\Twig_Environment $env, string $componentName, array $options = []) use ($components) {
+            new TwigFunction('render_component',
+                function (Environment $env, string $componentName, array $options = []) use ($components) {
                     if (!array_key_exists($componentName, $components)) {
-                        throw new Twig\Error\RuntimeError(
+                        throw new RuntimeError(
                             sprintf('Component "%s" does not exist.', $componentName));
                     }
 

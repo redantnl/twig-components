@@ -4,6 +4,8 @@ namespace RedAnt\TwigComponents;
 
 use RedAnt\TwigComponents\Exception\TwigComponentsException;
 use RedAnt\TwigComponents\TokenParser\ComponentTokenParser;
+use Twig\Node\Expression\AbstractExpression;
+use Twig\Node\Expression\ConstantExpression;
 
 /**
  * Stores one Component property.
@@ -31,7 +33,7 @@ class Property
     protected $required = false;
 
     /**
-     * @var \Twig_Node_Expression
+     * @var AbstractExpression
      */
     protected $default;
 
@@ -55,7 +57,7 @@ class Property
     public function __construct(string $name)
     {
         $this->setName($name);
-        $this->default = new \Twig_Node_Expression_Constant(null, -1);
+        $this->default = new ConstantExpression(null, -1);
     }
 
     /**
@@ -135,19 +137,19 @@ class Property
     }
 
     /**
-     * @return \Twig_Node_Expression
+     * @return AbstractExpression
      */
-    public function getDefault(): \Twig_Node_Expression
+    public function getDefault(): AbstractExpression
     {
         return $this->default;
     }
 
     /**
-     * @param \Twig_Node_Expression $default
+     * @param AbstractExpression $default
      *
      * @return Property
      */
-    public function setDefault(\Twig_Node_Expression $default): Property
+    public function setDefault(AbstractExpression $default): Property
     {
         $this->default = $default;
 
