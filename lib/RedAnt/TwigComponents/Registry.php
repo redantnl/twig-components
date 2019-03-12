@@ -4,7 +4,10 @@ namespace RedAnt\TwigComponents;
 
 use Symfony\Component\PropertyAccess\PropertyAccess;
 use Symfony\Component\PropertyAccess\PropertyAccessorInterface;
-use Twig;
+use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 /**
  * Class Registry contains a collection of Components.
@@ -14,7 +17,7 @@ use Twig;
 class Registry
 {
     /**
-     * @var \Twig_Environment
+     * @var Environment
      */
     protected $twig;
 
@@ -41,10 +44,10 @@ class Registry
     /**
      * Create a new Twig Component registry.
      *
-     * @param \Twig_Environment              $twig
+     * @param Environment                    $twig
      * @param PropertyAccessorInterface|null $propertyAccessor
      */
-    public function __construct(\Twig_Environment $twig, PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct(Environment $twig, PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->twig = $twig;
 
@@ -89,9 +92,9 @@ class Registry
      *
      * @return $this
      *
-     * @throws \Twig_Error_Loader
-     * @throws \Twig_Error_Runtime
-     * @throws \Twig_Error_Syntax
+     * @throws RuntimeError
+     * @throws LoaderError
+     * @throws SyntaxError
      */
     public function __call($method, $variables)
     {
@@ -101,12 +104,12 @@ class Registry
 
         $template = $this->propertyAccessor->getValue($this->_components, $propertyPath);
         if (null === $template) {
-            throw new Twig\Error\RuntimeError(
+            throw new RuntimeError(
                 sprintf('Component or namespace "%s" does not exist.', $dotNotatedComponentName));
         }
         if (!is_array($template)) {
             if (count($variables) > 1 || key($variables) !== 0) {
-                throw new Twig\Error\RuntimeError(
+                throw new RuntimeError(
                     sprintf('Component "%s" accepts only one (anonymous) argument.',
                         $dotNotatedComponentName));
             }

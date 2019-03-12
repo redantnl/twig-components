@@ -2,7 +2,9 @@
 
 namespace RedAnt\TwigComponents\Exception;
 
-class TwigComponentsException extends \Twig_Error_Syntax
+use Twig\Error\SyntaxError;
+
+class TwigComponentsException extends SyntaxError
 {
 
 }
