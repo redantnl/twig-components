@@ -172,7 +172,9 @@ class ComponentNode extends Node
                     sprintf("Component contains an invalid type '%s'" .
                         " (allowed types are string, bool, int, float, array, ...[], or any existing class)",
                         $type),
-                    $this->getTemplateLine(), $this->getTemplateName());
+                    $this->getTemplateLine(),
+                    $this->getSourceContext()
+                );
         }
     }
 }
