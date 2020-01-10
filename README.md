@@ -46,6 +46,8 @@ $twig->addExtension($componentsExtension);
 
 A Twig component defines a number of properties with strict typing, default values,
 and comments for these properties, and specifies which properties are required.
+Each property can be rendered to an attribute when implementing your component.
+A property is only required if you mark it required. You can default values otherwise. 
 
 Here's an example:
 
@@ -54,6 +56,8 @@ Here's an example:
     container:           { type: 'string', default: 'button', comment: 'HTML element, e.g. "button" (default) or "a"' },
     label:               { type: 'string', required: true, comment: 'Button text (rendered as raw HTML)' },
     classes:             { type: 'string[]', default: [ 'small' ], comment: 'Additional button classes'},
+    some_object:         { type: 'Some\\Namespace\\SomeObject', comment: 'An implementation of a component' },
+    absent_object:       { type: '?Some\\Namespace\\AbsentObject', comment: 'An implementation of a component which can be absent at any point' }
 } with options %}
 ```
 
@@ -62,6 +66,9 @@ with the value from the `options` variable or the specified default value.
 
 Every value inside `options` will be checked for its name, type and,
 for required properties, whether it's defined or not.
+The value can be of a type referencing an object. If the object is not always available
+like `absent_object` you can prefix it with a `?` to mark the type as nullable, 
+in which case an error will be avoided.
 
 ### Usage
 

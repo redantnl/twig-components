@@ -12,6 +12,7 @@
     modal:              { type: 'string', comment: 'The name of the modal element that the details-url will open into' },
 
     sort:               { type: 'string[]', comment: 'An array with two values: the column to sort on and the sorting direction "asc" or "desc"' },
+    data_table:         { type: '?Some\\Namespace\\DataTable', comment: 'A datatable class containing the implementation of the datatable' }
 
     columns:            { type: 'string[]', comment: 'The column names', preview: '[ "Column one", "Column two" ]' },
     column_prefix:      { type: 'string', comment: 'Column name prefix (e.g., "project" for a project entity)' },
@@ -32,6 +33,10 @@
 {% if datatable.orderable %}{% set classes = classes|merge([ 'orderable' ]) %}{% endif %}
 {% if datatable.paginated %}{% set classes = classes|merge([ 'paginated' ]) %}{% endif %}
 {% set classes = classes|merge([ 'selectable', 'unstackable', 'data', 'table' ]) %}
+
+{% if datatable.data_table %}
+{#    Implement the data_table configuration #}
+{% endif %}
 
 {# If a details url is specified, add a hidden id column to the front of the data #}
 {# This column is then used to create <tr id=...> tags #}
