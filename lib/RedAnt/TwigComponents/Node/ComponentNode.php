@@ -160,12 +160,18 @@ class ComponentNode extends Node
             case 'array':
                 return 'is_array(%s)';
             default:
+                if ($nullable = stripos($type, '?') === 0) {
+                    $type = substr($type, 1);
+                }
+
                 if ('[]' === substr($type, -2)) {
                     return 'is_array(%s)';
                 }
 
                 if (class_exists($type)) {
                     return '%s instanceof ' . $type;
+                } elseif ($nullable) {
+                    return 'false';
                 }
 
                 throw new SyntaxError(
