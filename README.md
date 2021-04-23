@@ -79,14 +79,12 @@ into the specific component implementation every time---we want them to be able 
 draw from something like the public API of our regular code. That's why we enforce
 a more stricter use: now we're able to help users with small typos or type mismatches.
 
-But enough words, let's look at an example component definition for our button.
+But enough words, let's look at an example component definition: for a button.
 
 A Twig component defines a number of properties with strict typing, default values,
 and comments for these properties, and specifies which properties are required.
 Each property can be rendered to an attribute when implementing your component.
 A property is only required if you mark it required. You can set default values otherwise. 
-
-Here's an example:
 
 ```twig
 {% component button {
@@ -197,6 +195,6 @@ Parts of this documentation were first featured in the article
 ['Taming Twig'](https://www.phparch.com/article/taming-twig-crafting-high-quality-dry-templates/),
 originally published in the April 2019 issue of php[architect] magazine.
 
-Both the Twig Components code and this article were greatly enhanced by the invaluable
+Both the Twig Components code and this documentation were greatly enhanced by the invaluable
 feedback from my colleagues at RedAnt, notably Vincent Vermeulen, Rico Humme,
 Florian Käding, and Martijn van Beek. Thank you so much, guys!
