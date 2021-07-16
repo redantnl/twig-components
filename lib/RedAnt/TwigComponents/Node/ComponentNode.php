@@ -168,7 +168,7 @@ class ComponentNode extends Node
                     return 'is_array(%s)';
                 }
 
-                if (class_exists($type)) {
+                if (class_exists($type) or interface_exists($type)) {
                     return '%s instanceof ' . $type;
                 } elseif ($nullable) {
                     return 'false';
