@@ -41,7 +41,7 @@ class ComponentNode extends Node
      *
      * @throws SyntaxError
      */
-    public function compile(Compiler $compiler)
+    public function compile(Compiler $compiler): void
     {
         $this->compiler = $compiler;
         $this->componentName = $this->getAttribute('name');
