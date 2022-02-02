@@ -57,7 +57,7 @@ class ComponentNodeVisitor implements NodeVisitorInterface
      *
      * @return Node|false The modified node or false if the node must be removed
      */
-    public function leaveNode(Node $node, Environment $env)
+    public function leaveNode(Node $node, Environment $env): ?Node
     {
         return $node;
     }

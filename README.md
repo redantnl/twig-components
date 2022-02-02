@@ -13,7 +13,7 @@ This approach improves the developer experience in key ways:
 * Alerting when supplying the wrong type of data;
 * Flexibility with parameter ordering.
 
-There's also a nify [Symfony bundle](https://github.com/redantnl/twig-components-bundle) available.
+There's also a nifty [Symfony bundle](https://github.com/redantnl/twig-components-bundle) available.
 
 ## Quick start
 
