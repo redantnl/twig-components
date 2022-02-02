@@ -6,6 +6,9 @@
     container:    { type: 'string',
                     default: 'button',
                     comment: 'HTML container element' },
+    classes:      { type: 'string[]',
+                    default: ['small'],
+                    comment: 'Additional button classes' },
     label:        { type: 'string',
                     required: true,
                     comment: 'Button text (rendered as raw)',
@@ -16,5 +19,5 @@
 <{{ button.container }}
     class="{{ button.classes|join(' ') }}"
     {% if button.url %}href='{{ button.url }}'{% endif %}>
-    {{ label|raw }}
+    {{ button.label|raw }}
 </{{ button.container }}>
