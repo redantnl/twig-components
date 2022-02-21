@@ -72,10 +72,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
         return $globals;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         $components = $this->componentRegistry->getComponents();
 
@@ -95,10 +92,7 @@ class Extension extends AbstractExtension implements GlobalsInterface
         return $functions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return 'twig_component';
     }
