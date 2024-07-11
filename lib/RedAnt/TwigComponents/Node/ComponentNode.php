@@ -3,6 +3,7 @@
 namespace RedAnt\TwigComponents\Node;
 
 use RedAnt\TwigComponents\Property;
+use Twig\Attribute\YieldReady;
 use Twig\Compiler;
 use Twig\Error\SyntaxError;
 use Twig\Node\Expression\AbstractExpression as Expression;
@@ -17,6 +18,7 @@ use Twig\Node\Node;
  *
  * @author  Gert Wijnalda <gert@redant.nl>
  */
+#[YieldReady]
 class ComponentNode extends Node
 {
     /**
