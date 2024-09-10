@@ -31,11 +31,11 @@ class ComponentNode extends Node
      */
     protected $compiler;
 
-    public function __construct($name, Expression $value, array $properties, Expression $options, $line, $tag = null)
+    public function __construct($name, Expression $value, array $properties, Expression $options, $line)
     {
         parent::__construct(
             [ 'value' => $value, 'options' => $options ],
-            [ 'name' => $name, 'properties' => $properties ], $line, $tag);
+            [ 'name' => $name, 'properties' => $properties ], $line);
     }
 
     /**
