@@ -47,7 +47,7 @@ class Registry
      * @param Environment                    $twig
      * @param PropertyAccessorInterface|null $propertyAccessor
      */
-    public function __construct(Environment $twig, PropertyAccessorInterface $propertyAccessor = null)
+    public function __construct(Environment $twig, ?PropertyAccessorInterface $propertyAccessor = null)
     {
         $this->twig = $twig;
 
