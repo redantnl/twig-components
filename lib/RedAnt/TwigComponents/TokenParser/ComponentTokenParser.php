@@ -54,7 +54,7 @@ class ComponentTokenParser extends AbstractTokenParser
         $properties = $this->parseConfigurationOptions($configuration);
 
         $stream->expect(Token::NAME_TYPE, 'with');
-        $options = $parser->getExpressionParser()->parseExpression();
+        $options = $parser->parseExpression();
 
         $stream->expect(Token::BLOCK_END_TYPE);
 
