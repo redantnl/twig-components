@@ -48,7 +48,7 @@ class ComponentTokenParser extends AbstractTokenParser
                     $name));
         }
 
-        $configuration = $parser->getExpressionParser()->parseMappingExpression();
+        $configuration = $parser->parseExpression();
 
         // Expect a nested hash, with type, value, comment as keys
         $properties = $this->parseConfigurationOptions($configuration);
